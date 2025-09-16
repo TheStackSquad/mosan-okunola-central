@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+:root {
+  /* This is a fallback to ensure the CSS variables are available */
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-roboto: "Roboto", sans-serif;
+  --font-montserrat-alternates: "Montserrat Alternates", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  /* Applies Roboto to all body text and its descendants */
+  font-family: var(--font-roboto);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button {
+  /* Overrides the font for headers and buttons */
+  font-family: var(--font-montserrat-alternates);
+}
