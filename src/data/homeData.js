@@ -4,21 +4,21 @@
 export const carouselSlides = [
   {
     id: 1,
-    image: "/img/placeholderMan.webp",
+    image: "/img/lcda.webp",
     title: "Welcome to Our Local Government",
     description:
       "Serving our community with transparency, efficiency, and dedication. We're committed to improving the lives of all citizens through innovative governance and public service excellence.",
   },
   {
     id: 2,
-    image: "/img/placeholderFemale.webp",
+    image: "/img/5thAvenue.webp",
     title: "Community Development Projects",
     description:
       "Our ongoing infrastructure projects include road improvements, healthcare facility upgrades, and educational program expansions. Together, we're building a stronger future for our community.",
   },
   {
     id: 3,
-    image: "/img/placeholderMan.webp",
+    image: "/img/healthFacility.webp",
     title: "Citizen-Centered Services",
     description:
       "Access government services online 24/7. From permit applications to tax payments, we've digitized our processes to make your interactions with local government quick and convenient.",
@@ -70,9 +70,9 @@ export const cardsData = [
 export const executiveTeam = [
   {
     id: 1,
-    name: "Hon. John Adebayo",
+    name: "Hon. Akindele Adunni Opeyemi",
     position: "Executive Chairman",
-    image: "/img/placeholderMan.webp",
+    image: "/img/madamChair.webp",
     bio: "Dedicated public servant with 15 years of experience in local governance and community development.",
     contact: {
       email: "chairman@localgovt.gov.ng",
@@ -81,9 +81,9 @@ export const executiveTeam = [
   },
   {
     id: 2,
-    name: "Mrs. Sarah Okafor",
+    name: "Hon. Akin Falade",
     position: "Vice Chairman",
-    image: "/img/placeholderFemale.webp",
+    image: "/img/viceChair.webp",
     bio: "Former educator and community organizer, passionate about youth development and women empowerment.",
     contact: {
       email: "vicechairman@localgovt.gov.ng",
@@ -94,7 +94,7 @@ export const executiveTeam = [
     id: 3,
     name: "Mr. Ibrahim Hassan",
     position: "Secretary",
-    image: "/img/placeholderMan.webp",
+    image: "/img/APC-flag.webp",
     bio: "Administrative expert with extensive experience in public sector management and policy implementation.",
     contact: {
       email: "secretary@localgovt.gov.ng",
@@ -109,7 +109,7 @@ export const councilors = [
     id: 1,
     name: "Hon. Blessing Okoro",
     ward: "Ward 1",
-    image: "/img/placeholderFemale.webp",
+    image: "/img/councillor.webp",
     contact: {
       email: "ward1@localgovt.gov.ng",
       phone: "+234-804-567-8901",
@@ -156,7 +156,7 @@ export const news = [
       "State-of-the-art primary healthcare center begins operations, serving over 25,000 residents.",
     date: "2024-09-10",
     category: "Healthcare",
-    image: "/img/placeholderFemale.webp",
+    image: "/img/healthFacility.webp",
   },
   {
     id: 2,
@@ -165,7 +165,7 @@ export const news = [
       "The 15km township road project is ahead of schedule and will be completed by December 2024.",
     date: "2024-09-08",
     category: "Infrastructure",
-    image: "/img/placeholderMan.webp",
+    image: "/img/5thAvenue.webp",
   },
   {
     id: 3,
@@ -174,10 +174,9 @@ export const news = [
       "600 young adults to benefit from digital literacy and vocational training initiative.",
     date: "2024-09-05",
     category: "Education",
-    image: "/img/placeholderFemale.webp",
+    image: "/img/skillsTraining.webp",
   },
 ];
-
 // Upcoming events
 export const upcomingEvents = [
   {
@@ -188,6 +187,7 @@ export const upcomingEvents = [
     location: "Council Chambers",
     description:
       "Monthly community meeting to discuss ongoing projects and citizen concerns.",
+    image: "/img/townHall.webp",
   },
   {
     id: 2,
@@ -197,6 +197,7 @@ export const upcomingEvents = [
     location: "Community Center",
     description:
       "Career guidance, entrepreneurship training, and networking opportunities for young people.",
+    image: "/img/youthEmpowerment.webp",
   },
   {
     id: 3,
@@ -206,6 +207,7 @@ export const upcomingEvents = [
     location: "Various Locations",
     description:
       "Community-wide environmental sanitation and tree planting exercise.",
+    image: "/img/cleanUp.webp",
   },
 ];
 

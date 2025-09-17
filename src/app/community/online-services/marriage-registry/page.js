@@ -7,18 +7,36 @@ import TimeSlotPicker from "@/components/community/service-pages/marriage-regist
 import CoupleDetailsForm from "@/components/community/service-pages/marriage-registry/coupleDetailsForm";
 import ConfirmationCard from "@/components/community/service-pages/marriage-registry/cofirmationCard";
 import ProgressStepper from "@/components/community/service-pages/marriage-registry/progressStepper";
+import MarriageRegistryModal from "@/modal/marriageRegistryModal";
 
 export default function MarriageRegistryPage() {
   const [step, setStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [coupleDetails, setCoupleDetails] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [referenceNumber, setReferenceNumber] = useState("");
+
+  const generateReferenceNumber = () => {
+    const timestamp = Date.now().toString().slice(-6); // Last 6 digits of timestamp
+    const randomChars = Math.random()
+      .toString(36)
+      .substring(2, 6)
+      .toUpperCase(); // 4 random chars
+    return `MR-${timestamp}-${randomChars}`;
+  };
 
   const handleConfirmBooking = () => {
-    // Simulate successful booking
-    alert(
-      "Appointment booked successfully! In a real implementation, this would connect to your backend system."
-    );
+    // Generate reference number
+    const refNumber = generateReferenceNumber();
+    setReferenceNumber(refNumber);
+
+    // Show modal
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   const steps = [
@@ -42,10 +60,13 @@ export default function MarriageRegistryPage() {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
-          <ProgressStepper steps={steps} currentStep={step} />
+        <div className="bg-white rounded-2xl shadow-lg p-4 md:p-8">
+          {/* Progress Stepper with responsive padding */}
+          <div className="px-2 sm:px-4 md:px-6 lg:px-8">
+            <ProgressStepper steps={steps} currentStep={step} />
+          </div>
 
-          <div className="mt-8">
+          <div className="mt-6">
             {step === 1 && (
               <BookingCalendar
                 onDateSelect={(date) => {
@@ -102,6 +123,16 @@ export default function MarriageRegistryPage() {
           </p>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <MarriageRegistryModal
+        isVisible={showModal}
+        onClose={handleCloseModal}
+        coupleDetails={coupleDetails}
+        referenceNumber={referenceNumber}
+        selectedDate={selectedDate}
+        selectedTime={selectedTime}
+      />
     </div>
   );
 }
