@@ -11,7 +11,7 @@ const structureData = {
         title: "Executive Chairman",
         name: "Hon. Akindele Adunni Opeyemi",
         department: "Executive Office",
-        image: "/img/placeholderFemale.webp",
+        image: "/img/councillor.webp",
         responsibilities: [
           "Overall administration and governance",
           "Policy formulation and implementation",
@@ -24,7 +24,7 @@ const structureData = {
         title: "Vice Chairman",
         name: "Hon. Akintola Falade",
         department: "Executive Office",
-        image: "/img/placeholderMan.webp",
+        image: "/img/viceChair.webp",
         responsibilities: [
           "Assist the Chairman in administrative duties",
           "Coordinate departmental activities",
@@ -34,10 +34,10 @@ const structureData = {
       },
       {
         id: 3,
-        title: "Secretary to Local Government",
-        name: "Mrs. Folake Adebayo",
+        title: "Chief Of Staff",
+        name: "Hon. Folabi Adedayo",
         department: "Administration",
-        image: "/img/placeholderFemale.webp",
+        image: "/img/chiefOfStaff.webp",
         responsibilities: [
           "Administrative coordination",
           "Record keeping and documentation",

@@ -74,8 +74,8 @@ const PageHeader = () => {
           About Mosan-Okunola LCDA
         </h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Building Tomorrow&apos;s Community Today Through Visionary Leadership and
-          Inclusive Governance
+          Building Tomorrow&apos;s Community Today Through Visionary Leadership
+          and Inclusive Governance
         </p>
       </div>
     </motion.div>
@@ -165,6 +165,26 @@ export default function AboutPage() {
     const timer = setTimeout(() => setIsLoading(false), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // **NEW LOGIC: Handle scroll-to-hash on page load**
+  React.useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.replace("#", "");
+      // Use a timeout to ensure all components are rendered
+      // before attempting to scroll to the element.
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({
+            behavior: shouldReduceMotion() ? "auto" : "smooth",
+            block: "start",
+          });
+          setActiveSection(id);
+        }
+      }, 500); // 500ms delay to ensure elements are in the DOM
+    }
+  }, []); // Empty dependency array ensures this runs once on mount
 
   // Optimize performance with memo for static navigation
   const MemoizedNavigationDots = React.memo(NavigationDots);

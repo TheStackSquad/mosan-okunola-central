@@ -11,7 +11,7 @@ export const carouselSlides = [
   },
   {
     id: 2,
-    image: "/img/5thAvenue.webp",
+    image: "/img/community.webp",
     title: "Community Development Projects",
     description:
       "Our ongoing infrastructure projects include road improvements, healthcare facility upgrades, and educational program expansions. Together, we're building a stronger future for our community.",
@@ -25,44 +25,33 @@ export const carouselSlides = [
   },
 ];
 
-// Cards data for stats/metrics
+
+// src/data/homeData.js
+
 export const cardsData = [
   {
-    icon: "📊",
-    stat: "2,847",
-    title: "Active Businesses",
-    description:
-      "Licensed local businesses contributing to our economic growth",
-    bgColor: "bg-blue-500",
-    showProgress: false,
+    image: "/img/leadership.webp",
+    title: "Meet Our Leadership",
+    description: "Connect with the executive and councillors shaping our community's future.",
+    href: "/about#leadership",
   },
   {
-    icon: "✅",
-    stat: "89%",
-    title: "Promises Fulfilled",
-    description: "Campaign commitments completed in the current term",
-    bgColor: "bg-green-500",
-    showProgress: true,
-    progressPercent: 89,
-    progressColor: "bg-green-500",
+    image: "/img/yellowPages.webp",
+    title: "Yellow Pages Directory",
+    description: "Find public institutions, police stations, schools, and healthcare centers.",
+    href: "/community/yellow-pages",
   },
   {
-    icon: "🏗️",
-    stat: "24",
-    title: "Infrastructure Projects",
-    description: "Roads, bridges, and public facilities under development",
-    bgColor: "bg-orange-500",
-    showProgress: true,
-    progressPercent: 67,
-    progressColor: "bg-orange-500",
+    image: "/img/services.webp",
+    title: "Emergency Services",
+    description: "Get immediate help for infrastructure issues and security concerns.",
+    href: "/community/service",
   },
   {
-    icon: "👥",
-    stat: "158,420",
-    title: "Citizens Served",
-    description: "Total population in our local government area",
-    bgColor: "bg-purple-500",
-    showProgress: false,
+    image: "/img/sec.webp",
+    title: "Report to Neighbourhood Watch",
+    description: "Securely report issues and act as a whistleblower to the neighbourhood watch.",
+    href: "/community",
   },
 ];
 
@@ -72,7 +61,7 @@ export const executiveTeam = [
     id: 1,
     name: "Hon. Akindele Adunni Opeyemi",
     position: "Executive Chairman",
-    image: "/img/madamChair.webp",
+    image: "/img/exec.webp",
     bio: "Dedicated public servant with 15 years of experience in local governance and community development.",
     contact: {
       email: "chairman@localgovt.gov.ng",
@@ -103,47 +92,73 @@ export const executiveTeam = [
   },
 ];
 
-// Councilors data
-export const councilors = [
+// src/data/homeData.js
+
+// Councilors data with Yoruba names and street lists
+export const councillors = [
   {
     id: 1,
-    name: "Hon. Blessing Okoro",
+    name: "Hon Joke Abegunde",
     ward: "Ward 1",
-    image: "/img/councillor.webp",
+    image: "/img/councillorFemale1.webp",
     contact: {
       email: "ward1@localgovt.gov.ng",
       phone: "+234-804-567-8901",
     },
+    streets: [
+      "Akinogun Street",
+      "Igbayilola Street",
+      "Gowon Estate Road",
+      "Olawale Cole Street",
+    ],
   },
   {
     id: 2,
-    name: "Hon. David Ogbonna",
+    name: "Hon. Omolara Adegbite",
     ward: "Ward 2",
-    image: "/img/placeholderMan.webp",
+    image: "/img/councillorFemale2.webp",
     contact: {
       email: "ward2@localgovt.gov.ng",
       phone: "+234-805-678-9012",
     },
+    streets: [
+      "Odofin Street",
+      "Okunola Road",
+      "Alhaji Sanni Lemonu Street",
+      "Abule Odu Road",
+    ],
   },
   {
     id: 3,
-    name: "Hon. Fatima Mohammed",
+    name: "Hon. Ayodele Samuel",
     ward: "Ward 3",
-    image: "/img/placeholderFemale.webp",
+    image: "/img/councillorMan1.webp",
     contact: {
       email: "ward3@localgovt.gov.ng",
       phone: "+234-806-789-0123",
     },
+    streets: [
+      "Isheri-Lasu Road",
+      "Abori Street",
+      "Pipeline Road",
+      "Mosalasi Street",
+    ],
   },
   {
     id: 4,
-    name: "Hon. Peter Eze",
+    name: "Hon. Afolabi Doherty",
     ward: "Ward 4",
-    image: "/img/placeholderMan.webp",
+    image: "/img/councillorMan2.webp",
     contact: {
       email: "ward4@localgovt.gov.ng",
       phone: "+234-807-890-1234",
     },
+    streets: [
+      "Egbeda-Idimu Road",
+      "Koleosho Street",
+      "Igbodile Street",
+      "Community Road",
+    ],
   },
 ];
 
@@ -165,7 +180,7 @@ export const news = [
       "The 15km township road project is ahead of schedule and will be completed by December 2024.",
     date: "2024-09-08",
     category: "Infrastructure",
-    image: "/img/5thAvenue.webp",
+    image: "/img/road-construction.webp",
   },
   {
     id: 3,
