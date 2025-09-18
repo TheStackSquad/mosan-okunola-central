@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 :root {
-  /* This is a fallback to ensure the CSS variables are available */
   --background: #ffffff;
   --foreground: #171717;
   --font-roboto: "Roboto", sans-serif;
@@ -16,7 +15,6 @@
 }
 
 body {
-  /* Applies Roboto to all body text and its descendants */
   font-family: var(--font-roboto);
 }
 
@@ -27,6 +25,11 @@ h4,
 h5,
 h6,
 button {
-  /* Overrides the font for headers and buttons */
   font-family: var(--font-montserrat-alternates);
+}
+
+/* This single rule applies Roboto to both p and span elements */
+p,
+span {
+  font-family: var(--font-roboto);
 }

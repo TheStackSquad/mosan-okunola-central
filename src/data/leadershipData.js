@@ -11,7 +11,7 @@ const leadershipData = {
         name: "Hon. Akindele Adunni Opeyemi",
         title: "Executive Chairman",
         nickname: "Adunni in the Neighbourhood",
-        image: "/img/placeholderFemale.webp",
+        image: "/img/councillor.webp",
         tenure: "2024 - 2027",
         party: "All Progressives Congress (APC)",
         bio: "A distinguished politician and educationist with over 15 years of experience in grassroots mobilization and community development. Known for her inclusive leadership style and commitment to women and youth empowerment.",
@@ -41,7 +41,7 @@ const leadershipData = {
         id: 2,
         name: "Hon. Akintola Falade",
         title: "Vice Chairman",
-        image: "/img/placeholderMan.webp",
+        image: "/img/viceChair.webp",
         tenure: "2024 - 2027",
         party: "All Progressives Congress (APC)",
         bio: "An experienced administrator and community leader with a strong background in project management and public service. Brings over 12 years of experience in local government administration.",
@@ -77,10 +77,10 @@ const leadershipData = {
     leaders: [
       {
         id: 3,
-        name: "Mrs. Folake Adebayo",
-        title: "Secretary to Local Government",
+        name: "Hon. Folabi Adedayo",
+        title: "Chief Of Staff",
         department: "Administration",
-        image: "/img/placeholderFemale.webp",
+        image: "/img/chiefOfStaff.webp",
         experience: "18 years in public administration",
         bio: "A seasoned administrator with extensive experience in local government operations, policy coordination, and administrative management.",
         keyResponsibilities: [

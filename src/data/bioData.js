@@ -5,7 +5,7 @@ const bioData = {
     name: "Hon. Akindele Adunni Opeyemi",
     title: "Executive Chairman",
     nickname: "Adunni in the Neighbourhood",
-    image: "/img/placeholderFemale.webp",
+    image: "/img/exec.webp",
     shortBio:
       "A distinguished politician and educationist committed to grassroots mobilization and community development in Mosan-Okunola LCDA.",
     fullBio: [
