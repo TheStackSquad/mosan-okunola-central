@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { mobileMenuVariants } from "@/animation/navbarAnimate";
 
 export default function MobileMenu({
@@ -17,8 +17,7 @@ export default function MobileMenu({
   closeCommunity,
 }) {
   const handleMobileLinkClick = () => {
-    setMenuOpen(false);
-    // Close all dropdowns when a mobile link is clicked
+    setMenuOpen(false); // Close all dropdowns when a mobile link is clicked
     closeAbout();
     closeCommunity();
   };
@@ -43,35 +42,28 @@ export default function MobileMenu({
       return (
         <div key={item.path} className="flex flex-col">
           {/* Main item with dropdown toggle */}
-          <div className="flex items-center w-full">
-            <Link
-              href={item.path}
-              onClick={handleMobileLinkClick}
-              className="flex-1 text-left block relative group px-4 py-3 rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (toggleDropdown) {
+                toggleDropdown();
+              }
+            }}
+            className="flex items-center justify-between w-full px-0 py-4 text-left transition-colors duration-200 group"
+            aria-label={`Toggle ${item.label} dropdown`}
+          >
+            <span className="text-lg font-normal text-gray-800 group-hover:text-primary transition-colors duration-200">
+              {item.label}
+            </span>
+            <motion.div
+              animate={{ rotate: isDropdownOpen ? 90 : 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="text-gray-500"
             >
-              <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
-                {item.label}
-              </span>
-            </Link>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (toggleDropdown) {
-                  toggleDropdown();
-                }
-              }}
-              className="p-3 mr-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
-              aria-label={`Toggle ${item.label} dropdown`}
-            >
-              <motion.div
-                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <ChevronDown size={16} />
-              </motion.div>
-            </button>
-          </div>
+              <ChevronRight size={18} />
+            </motion.div>
+          </button>
 
           {/* Dropdown content */}
           <AnimatePresence>
@@ -80,21 +72,18 @@ export default function MobileMenu({
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeInOut" }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
                 className="overflow-hidden"
               >
-                <div className="pl-4 pb-2">
+                <div className="pl-6 pb-2">
                   {item.dropdown.map((subItem) => (
                     <Link
                       key={subItem.id}
                       href={subItem.path || `${hrefBase}#${subItem.id}`}
                       onClick={handleMobileLinkClick}
-                      className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 rounded-lg ml-2 my-1"
+                      className="block py-3 text-base font-normal text-gray-600 hover:text-primary transition-colors duration-200"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="text-base">{subItem.icon}</span>
-                        <span>{subItem.label}</span>
-                      </div>
+                      {subItem.label}
                     </Link>
                   ))}
                 </div>
@@ -110,15 +99,9 @@ export default function MobileMenu({
           key={item.path}
           href={item.path}
           onClick={handleMobileLinkClick}
-          className="block relative group px-4 py-3 rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+          className="block py-4 text-lg font-normal text-gray-800 hover:text-primary transition-colors duration-200"
         >
-          <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
-            {item.label}
-          </span>
-          <motion.div
-            className="absolute inset-0 bg-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            layoutId="mobileHover"
-          />
+          {item.label}
         </Link>
       );
     }
@@ -128,7 +111,7 @@ export default function MobileMenu({
     <AnimatePresence>
       {menuOpen && (
         <motion.nav
-          className="lg:hidden bg-white dark:bg-dark border-t border-gray-200 dark:border-gray-700 px-4 py-4 space-y-2 font-cinzel text-sm text-gray-700 dark:text-gray-300"
+          className="lg:hidden bg-white/95 backdrop-blur-sm border-t border-gray-200 px-6 py-6 space-y-1"
           initial="hidden"
           animate="visible"
           exit="hidden"

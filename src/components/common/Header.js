@@ -73,9 +73,8 @@ const navItems = [
 ];
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // Desktop dropdown states
 
-  // Desktop dropdown states
   const [aboutDropdownRef, isAboutOpen, toggleAbout, closeAbout] =
     useDropdown();
   const [
@@ -83,9 +82,8 @@ export default function Header() {
     isCommunityOpen,
     toggleCommunity,
     closeCommunity,
-  ] = useDropdown();
+  ] = useDropdown(); // Mobile dropdown states (separate from desktop)
 
-  // Mobile dropdown states (separate from desktop)
   const [, isMobileAboutOpen, toggleMobileAbout, closeMobileAbout] =
     useDropdown();
   const [, isMobileCommunityOpen, toggleMobileCommunity, closeMobileCommunity] =
@@ -103,8 +101,7 @@ export default function Header() {
         menuButtonRef.current &&
         !menuButtonRef.current.contains(event.target)
       ) {
-        setMenuOpen(false);
-        // Close mobile dropdowns when menu closes
+        setMenuOpen(false); // Close mobile dropdowns when menu closes
         closeMobileAbout();
         closeMobileCommunity();
       }
@@ -117,9 +114,8 @@ export default function Header() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [menuOpen, closeMobileAbout, closeMobileCommunity]);
+  }, [menuOpen, closeMobileAbout, closeMobileCommunity]); // Close mobile dropdowns when menu closes
 
-  // Close mobile dropdowns when menu closes
   useEffect(() => {
     if (!menuOpen) {
       closeMobileAbout();
@@ -129,9 +125,8 @@ export default function Header() {
 
   const handleMenuToggle = () => {
     const newMenuOpen = !menuOpen;
-    setMenuOpen(newMenuOpen);
+    setMenuOpen(newMenuOpen); // Close all dropdowns when closing menu
 
-    // Close all dropdowns when closing menu
     if (!newMenuOpen) {
       closeMobileAbout();
       closeMobileCommunity();
@@ -141,11 +136,11 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full fixed top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+    <header className="w-full fixed top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="group">
+          <Link href="/" className="group flex-shrink-0">
             <motion.div
               className="text-lg font-display font-bold text-gray-900 transition-all duration-300 group-hover:text-primary group-hover:scale-105"
               whileHover={{ scale: 1.05 }}
@@ -155,8 +150,8 @@ export default function Header() {
             </motion.div>
           </Link>
 
-          {/* Desktop: Nav */}
-          <div className="hidden lg:flex items-center">
+          {/* Desktop: Nav - Now takes full available width */}
+          <div className="hidden lg:flex flex-1 justify-center">
             <DesktopNav
               navItems={navItems}
               isAboutOpen={isAboutOpen}

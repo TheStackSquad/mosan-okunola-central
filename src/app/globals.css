@@ -1,17 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* This is no longer used, but kept for clarity */
+  --foreground: #171717; /* This is no longer used, but kept for clarity */
   --font-roboto: "Roboto", sans-serif;
   --font-montserrat-alternates: "Montserrat Alternates", sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -28,7 +21,6 @@ button {
   font-family: var(--font-montserrat-alternates);
 }
 
-/* This single rule applies Roboto to both p and span elements */
 p,
 span {
   font-family: var(--font-roboto);
