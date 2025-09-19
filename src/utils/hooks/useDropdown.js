@@ -1,44 +1,58 @@
 // src/utils/hooks/useDropdown.js
+"use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
-export function useDropdown() {
-  const [activeDropdown, setActiveDropdown] = useState(null);
+export function useDropdown(initialState = false) {
+  const [isOpen, setIsOpen] = useState(initialState);
+  const dropdownRef = useRef(null);
 
-  // Toggle specific dropdown
-  const toggleDropdown = useCallback((dropdownId) => {
-    setActiveDropdown((current) =>
-      current === dropdownId ? null : dropdownId
-    );
+  const toggleDropdown = useCallback(() => {
+    setIsOpen((prev) => {
+      const newState = !prev;
+      // Debug logging (remove in production)
+      console.log(`Dropdown toggled: ${prev} -> ${newState}`);
+      return newState;
+    });
   }, []);
 
-  // Open specific dropdown
-  const openDropdown = useCallback((dropdownId) => {
-    setActiveDropdown(dropdownId);
-  }, []);
-
-  // Close all dropdowns
   const closeDropdown = useCallback(() => {
-    setActiveDropdown(null);
+    setIsOpen(false);
   }, []);
 
-  // Check if specific dropdown is open
-  const isDropdownOpen = useCallback(
-    (dropdownId) => {
-      return activeDropdown === dropdownId;
-    },
-    [activeDropdown]
-  );
+  const openDropdown = useCallback(() => {
+    setIsOpen(true);
+  }, []);
 
-  // Check if any dropdown is open
-  const isAnyDropdownOpen = activeDropdown !== null;
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Only close if dropdown is open and click is outside
+      if (
+        isOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        closeDropdown();
+      }
+    };
 
-  return {
-    activeDropdown,
-    toggleDropdown,
-    openDropdown,
-    closeDropdown,
-    isDropdownOpen,
-    isAnyDropdownOpen,
-  };
+    const handleEscapeKey = (event) => {
+      if (event.key === "Escape" && isOpen) {
+        closeDropdown();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscapeKey);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [isOpen, closeDropdown]);
+
+  // Return ref, state, and handlers
+  return [dropdownRef, isOpen, toggleDropdown, closeDropdown, openDropdown];
 }

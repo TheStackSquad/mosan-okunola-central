@@ -1,138 +1,97 @@
-// src/components/common/nav/desktopNav.jsx
-"use client";
-
-import React, { useRef } from "react";
-import { motion } from "framer-motion";
+// src/components/common/nav/DesktopNav.jsx
+import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { navItems } from "@/data/navigationData";
-import {
-  chevronVariants,
-  navItemHover,
-  navItemTap,
-} from "@/animation/navbarAnimate";
-import DropdownMenu from "./dropdownMenu";
+import { NavDropdown } from "@/utils/hooks/navDropdown";
+// import ThemeToggle from "./themeToggle";
 
 export default function DesktopNav({
-  // activeDropdown,
-  toggleDropdown,
-  closeDropdown,
-  isDropdownOpen,
+  navItems,
+  isAboutOpen,
+  toggleAbout,
+  closeAbout,
+  aboutDropdownRef,
+  isCommunityOpen,
+  toggleCommunity,
+  closeCommunity,
+  communityDropdownRef,
+  // theme,
+  // toggleTheme,
 }) {
-  const pathname = usePathname();
-  const dropdownRefs = useRef({});
-
-  const isActiveLink = (path) => {
-    return pathname === path;
-  };
-
-  const isActiveParent = (item) => {
-    if (isActiveLink(item.path)) return true;
+  const renderDesktopNavItem = (item) => {
+    const isDropdownOpen =
+      item.label === "About" ? isAboutOpen : isCommunityOpen;
+    const toggleDropdown =
+      item.label === "About" ? toggleAbout : toggleCommunity;
+    const closeDropdown = item.label === "About" ? closeAbout : closeCommunity;
+    const dropdownRef =
+      item.label === "About" ? aboutDropdownRef : communityDropdownRef;
 
     if (item.dropdown) {
-      return item.dropdown.some(
-        (dropdownItem) => dropdownItem.path && isActiveLink(dropdownItem.path)
+      return (
+        <div key={item.path} className="relative" ref={dropdownRef}>
+          <div className="flex items-center">
+            <Link
+              href={item.path}
+              className="relative group px-4 py-2 rounded-l-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1"
+            >
+              <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
+                {item.label}
+              </span>
+            </Link>
+            <button
+              onClick={toggleDropdown}
+              className="relative group px-2 py-2 rounded-r-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              aria-label={`Toggle ${item.label} dropdown`}
+            >
+              <motion.span
+                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="relative z-10"
+              >
+                <ChevronDown size={16} />
+              </motion.span>
+              <motion.div
+                className="absolute inset-0 bg-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                layoutId="desktopHover"
+              />
+            </button>
+          </div>
+          <NavDropdown
+            items={item.dropdown}
+            isOpen={isDropdownOpen}
+            onClose={closeDropdown}
+            basePath={item.path}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div key={item.path}>
+          <Link
+            href={item.path}
+            className="relative group px-4 py-2 rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
+              {item.label}
+            </span>
+            <motion.div
+              className="absolute inset-0 bg-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              layoutId="desktopHover"
+            />
+          </Link>
+        </div>
       );
     }
-
-    return false;
-  };
-
-  const handleDropdownToggle = (itemId, event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    toggleDropdown(itemId);
-  };
-
-  const handleMouseEnter = (itemId) => {
-    if (itemId && navItems.find((item) => item.id === itemId)?.hasDropdown) {
-      toggleDropdown(itemId);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    // Small delay to prevent accidental closing when moving to dropdown
-    setTimeout(() => {
-      closeDropdown();
-    }, 150);
   };
 
   return (
-    <nav className="hidden md:flex items-center space-x-1" role="navigation">
-      {navItems.map((item) => {
-        const isActive = isActiveParent(item);
-        const hasDropdownItems = item.hasDropdown && item.dropdown?.length > 0;
-
-        return (
-          <div
-            key={item.id}
-            className="relative"
-            onMouseEnter={() => handleMouseEnter(item.id)}
-            onMouseLeave={handleMouseLeave}
-            ref={(el) => (dropdownRefs.current[item.id] = el)}
-          >
-            {hasDropdownItems ? (
-              <motion.button
-                onClick={(e) => handleDropdownToggle(item.id, e)}
-                whileHover={navItemHover}
-                whileTap={navItemTap}
-                className={`
-                  flex items-center gap-1 px-4 py-2 rounded-lg
-                  font-medium transition-all duration-200
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                  ${
-                    isActive
-                      ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                      : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                  }
-                `}
-                aria-expanded={isDropdownOpen(item.id)}
-                aria-haspopup="true"
-                id={`${item.id}-dropdown-button`}
-              >
-                <span>{item.label}</span>
-                <motion.div
-                  variants={chevronVariants}
-                  animate={isDropdownOpen(item.id) ? "open" : "closed"}
-                >
-                  <ChevronDown size={16} className="ml-1" />
-                </motion.div>
-              </motion.button>
-            ) : (
-              <motion.div whileHover={navItemHover} whileTap={navItemTap}>
-                <Link
-                  href={item.path}
-                  className={`
-                    block px-4 py-2 rounded-lg
-                    font-medium transition-all duration-200
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                    ${
-                      isActive
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                        : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                    }
-                  `}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  {item.label}
-                </Link>
-              </motion.div>
-            )}
-
-            {/* Dropdown Menu */}
-            {hasDropdownItems && (
-              <DropdownMenu
-                items={item.dropdown}
-                isOpen={isDropdownOpen(item.id)}
-                onClose={closeDropdown}
-                className="top-full left-0 mt-1"
-                isMobile={false}
-              />
-            )}
-          </div>
-        );
-      })}
+    <nav className="hidden lg:flex items-center space-x-2 text-gray-700 dark:text-gray-300 text-sm">
+      {navItems.map(renderDesktopNavItem)}
+      <div className="ml-4">
+        {/* <ThemeToggle theme={theme} toggleTheme={toggleTheme} /> */}
+      </div>
     </nav>
   );
 }
