@@ -1,206 +1,141 @@
 // src/components/common/nav/mobileMenu.jsx
-"use client";
-
-import React, { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { X, ChevronDown } from "lucide-react";
-import { navItems } from "@/data/navigationData";
-import {
-  mobileMenuVariants,
-  backdropVariants,
-  chevronVariants,
-  staggerContainer,
-  staggerItem,
-} from "@/animation/navbarAnimate";
-import DropdownMenu from "./dropdownMenu";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import { mobileMenuVariants } from "@/animation/navbarAnimate";
 
 export default function MobileMenu({
-  isOpen,
-  onClose,
-  // activeDropdown,
-  toggleDropdown,
-  isDropdownOpen,
+  menuOpen,
+  setMenuOpen,
+  navItems,
+  isAboutOpen,
+  toggleAbout,
+  closeAbout,
+  isCommunityOpen,
+  toggleCommunity,
+  closeCommunity,
 }) {
-  const pathname = usePathname();
-
-  // Lock body scroll when menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
-  // Close menu on escape key
-  useEffect(() => {
-    const handleEscape = (event) => {
-      if (event.key === "Escape" && isOpen) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen, onClose]);
-
-  const isActiveLink = (path) => {
-    return pathname === path;
+  const handleMobileLinkClick = () => {
+    setMenuOpen(false);
+    // Close all dropdowns when a mobile link is clicked
+    closeAbout();
+    closeCommunity();
   };
 
-  const isActiveParent = (item) => {
-    if (isActiveLink(item.path)) return true;
+  const renderMobileNavItem = (item) => {
+    // Determine which dropdown state to use based on item label
+    const isDropdownOpen =
+      item.label === "About"
+        ? isAboutOpen
+        : item.label === "Community"
+        ? isCommunityOpen
+        : false;
+    const toggleDropdown =
+      item.label === "About"
+        ? toggleAbout
+        : item.label === "Community"
+        ? toggleCommunity
+        : null;
+    const hrefBase = item.path;
 
     if (item.dropdown) {
-      return item.dropdown.some(
-        (dropdownItem) => dropdownItem.path && isActiveLink(dropdownItem.path)
+      return (
+        <div key={item.path} className="flex flex-col">
+          {/* Main item with dropdown toggle */}
+          <div className="flex items-center w-full">
+            <Link
+              href={item.path}
+              onClick={handleMobileLinkClick}
+              className="flex-1 text-left block relative group px-4 py-3 rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
+                {item.label}
+              </span>
+            </Link>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (toggleDropdown) {
+                  toggleDropdown();
+                }
+              }}
+              className="p-3 mr-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+              aria-label={`Toggle ${item.label} dropdown`}
+            >
+              <motion.div
+                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChevronDown size={16} />
+              </motion.div>
+            </button>
+          </div>
+
+          {/* Dropdown content */}
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="pl-4 pb-2">
+                  {item.dropdown.map((subItem) => (
+                    <Link
+                      key={subItem.id}
+                      href={subItem.path || `${hrefBase}#${subItem.id}`}
+                      onClick={handleMobileLinkClick}
+                      className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 rounded-lg ml-2 my-1"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-base">{subItem.icon}</span>
+                        <span>{subItem.label}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      );
+    } else {
+      // Regular nav item without dropdown
+      return (
+        <Link
+          key={item.path}
+          href={item.path}
+          onClick={handleMobileLinkClick}
+          className="block relative group px-4 py-3 rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
+          <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
+            {item.label}
+          </span>
+          <motion.div
+            className="absolute inset-0 bg-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            layoutId="mobileHover"
+          />
+        </Link>
       );
     }
-
-    return false;
-  };
-
-  const handleLinkClick = () => {
-    onClose();
-  };
-
-  const handleDropdownToggle = (itemId, event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    toggleDropdown(itemId);
   };
 
   return (
     <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            variants={backdropVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            onClick={onClose}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
-            aria-hidden="true"
-          />
-
-          {/* Mobile Menu */}
-          <motion.div
-            variants={mobileMenuVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] 
-                       bg-white dark:bg-gray-900 
-                       shadow-xl z-50 md:hidden
-                       overflow-y-auto"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigation menu"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Menu
-              </h2>
-              <button
-                onClick={onClose}
-                className="p-2 rounded-lg text-gray-500 dark:text-gray-400 
-                          hover:bg-gray-100 dark:hover:bg-gray-800
-                          focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-label="Close menu"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            {/* Navigation Items */}
-            <motion.nav
-              className="p-4 space-y-2"
-              variants={staggerContainer}
-              initial="hidden"
-              animate="visible"
-            >
-              {navItems.map((item) => {
-                const isActive = isActiveParent(item);
-                const hasDropdownItems =
-                  item.hasDropdown && item.dropdown?.length > 0;
-
-                return (
-                  <motion.div
-                    key={item.id}
-                    variants={staggerItem}
-                    className="space-y-1"
-                  >
-                    {hasDropdownItems ? (
-                      <div>
-                        <button
-                          onClick={(e) => handleDropdownToggle(item.id, e)}
-                          className={`
-                            w-full flex items-center justify-between p-3 rounded-lg
-                            font-medium transition-all duration-200
-                            focus:outline-none focus:ring-2 focus:ring-blue-500
-                            ${
-                              isActive
-                                ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                                : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                            }
-                          `}
-                          aria-expanded={isDropdownOpen(item.id)}
-                          aria-controls={`${item.id}-dropdown`}
-                        >
-                          <span>{item.label}</span>
-                          <motion.div
-                            variants={chevronVariants}
-                            animate={
-                              isDropdownOpen(item.id) ? "open" : "closed"
-                            }
-                          >
-                            <ChevronDown size={16} />
-                          </motion.div>
-                        </button>
-
-                        {/* Mobile Dropdown */}
-                        <DropdownMenu
-                          items={item.dropdown}
-                          isOpen={isDropdownOpen(item.id)}
-                          onClose={handleLinkClick}
-                          className="ml-4"
-                          isMobile={true}
-                        />
-                      </div>
-                    ) : (
-                      <Link
-                        href={item.path}
-                        onClick={handleLinkClick}
-                        className={`
-                          block p-3 rounded-lg
-                          font-medium transition-all duration-200
-                          focus:outline-none focus:ring-2 focus:ring-blue-500
-                          ${
-                            isActive
-                              ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                          }
-                        `}
-                        aria-current={isActive ? "page" : undefined}
-                      >
-                        {item.label}
-                      </Link>
-                    )}
-                  </motion.div>
-                );
-              })}
-            </motion.nav>
-          </motion.div>
-        </>
+      {menuOpen && (
+        <motion.nav
+          className="lg:hidden bg-white dark:bg-dark border-t border-gray-200 dark:border-gray-700 px-4 py-4 space-y-2 font-cinzel text-sm text-gray-700 dark:text-gray-300"
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          variants={mobileMenuVariants}
+        >
+          {navItems.map(renderMobileNavItem)}
+        </motion.nav>
       )}
     </AnimatePresence>
   );
