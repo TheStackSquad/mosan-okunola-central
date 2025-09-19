@@ -10,12 +10,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        // Defines a custom font family named 'header'
         header: ["var(--font-montserrat-alternates)"],
-        // Defines a custom font family named 'body'
         body: ["var(--font-roboto)"],
       },
     },
   },
+  darkMode: false,
   plugins: [],
 };

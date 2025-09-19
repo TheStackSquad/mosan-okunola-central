@@ -16,8 +16,6 @@ export default function DesktopNav({
   toggleCommunity,
   closeCommunity,
   communityDropdownRef,
-  // theme,
-  // toggleTheme,
 }) {
   const renderDesktopNavItem = (item) => {
     const isDropdownOpen =
@@ -30,19 +28,23 @@ export default function DesktopNav({
 
     if (item.dropdown) {
       return (
-        <div key={item.path} className="relative" ref={dropdownRef}>
+        <div
+          key={item.path}
+          className="relative flex-1 flex justify-center"
+          ref={dropdownRef}
+        >
           <div className="flex items-center">
             <Link
               href={item.path}
-              className="relative group px-4 py-2 rounded-l-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1"
+              className="relative group px-4 py-2 rounded-l-lg transition-all duration-300 hover:bg-gray-100 flex items-center gap-1"
             >
-              <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
+              <span className="relative z-10 font-bold text-gray-800 group-hover:text-primary transition-colors duration-300">
                 {item.label}
               </span>
             </Link>
             <button
               onClick={toggleDropdown}
-              className="relative group px-2 py-2 rounded-r-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="relative group px-2 py-2 rounded-r-lg transition-all duration-300 hover:bg-gray-100 text-gray-800"
               aria-label={`Toggle ${item.label} dropdown`}
             >
               <motion.span
@@ -68,12 +70,12 @@ export default function DesktopNav({
       );
     } else {
       return (
-        <div key={item.path}>
+        <div key={item.path} className="flex-1 flex justify-center">
           <Link
             href={item.path}
-            className="relative group px-4 py-2 rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="relative group px-4 py-2 rounded-lg transition-all duration-300 hover:bg-gray-100"
           >
-            <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
+            <span className="relative z-10 font-bold text-gray-800 group-hover:text-primary transition-colors duration-300">
               {item.label}
             </span>
             <motion.div
@@ -87,11 +89,12 @@ export default function DesktopNav({
   };
 
   return (
-    <nav className="hidden lg:flex items-center space-x-2 text-gray-700 dark:text-gray-300 text-sm">
+    <nav className="hidden lg:flex items-center w-full max-w-4xl mx-auto text-sm text-gray-800">
       {navItems.map(renderDesktopNavItem)}
-      <div className="ml-4">
-        {/* <ThemeToggle theme={theme} toggleTheme={toggleTheme} /> */}
-      </div>
+      {/* Theme toggle removed from flex layout to avoid affecting spacing */}
+      {/* <div className="absolute right-0">
+        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+      </div> */}
     </nav>
   );
 }
