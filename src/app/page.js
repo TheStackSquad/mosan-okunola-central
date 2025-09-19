@@ -97,9 +97,9 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
             {/* LEFT COLUMN - 30% width */}
             <div className="w-full lg:w-[30%]">
-              <div className="space-y-6">
+              <div className="space-y-6 mt-7">
                 {/* Carousel Container */}
-                <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div className="bg-white mt-3 rounded-2xl shadow-lg overflow-hidden">
                   <HomeCarousel slides={enrichedSlides} />
                 </div>
 
